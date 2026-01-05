@@ -86,32 +86,158 @@ st.markdown("""
         text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
 
-        /* ESTILO DOS KPIs - BORDA PRETA */
+    /* ESTILO DOS KPIs - BORDA PRETA */
     div[data-testid="stMetric"] {
-        background-color: #ffffff;        /* Fundo branco */
-        border: 2px solid #2c3e50;        /* Borda: 2px de largura, sólida, cor cinza-escuro */
-        border-radius: 10px;              /* Cantos arredondados (10 pixels de raio) */
-        padding: 15px;                    /* Espaçamento interno (15px em todos os lados) */
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);  /* Sombra: horizontal=0, vertical=2px, blur=4px, cor preta 10% opacidade */
+        background-color: #ffffff;
+        border: 2px solid #2c3e50;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    
+
+    div[data-testid="stMetric"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
     /* Título do métrica */
     div[data-testid="stMetric"] > label {
-        font-weight: 600;                 /* Negrito médio */
-        color: #2c3e50;                   /* Cor do texto */
+        font-weight: 600;
+        color: #2c3e50;
     }
-    
+
     /* Valor do métrica */
     div[data-testid="stMetricValue"] {
-        font-size: 1.8rem;                /* Tamanho da fonte do valor */
-        font-weight: bold;                /* Negrito */
-        color: #1f77b4;                   /* Cor azul */
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #1f77b4;
     }
-    
+
     /* Delta (variação) */
     div[data-testid="stMetricDelta"] {
-        font-size: 0.9rem;                /* Tamanho menor para delta */
-        
+        font-size: 0.9rem;
+    }
+
+    /* ESTILOS DE TOOLTIP PARA KPIs */
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .tooltip-icon {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 18px;
+        height: 18px;
+        background-color: #1976d2;
+        color: white;
+        border-radius: 50%;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 18px;
+        cursor: help;
+        z-index: 100;
+    }
+
+    .tooltip-text {
+        visibility: hidden;
+        width: 250px;
+        background-color: #2c3e50;
+        color: #fff;
+        text-align: left;
+        border-radius: 8px;
+        padding: 12px;
+        position: absolute;
+        z-index: 1000;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 10px;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 0.3s;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .tooltip-text::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -8px;
+        border-width: 8px;
+        border-style: solid;
+        border-color: #2c3e50 transparent transparent transparent;
+    }
+
+    .tooltip-container:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    /* Card de KPI com tooltip integrado */
+    .kpi-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border: 2px solid #2c3e50;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 5px 0;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .kpi-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        border-color: #1976d2;
+    }
+
+    .kpi-card .kpi-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .kpi-card .kpi-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #1f77b4;
+    }
+
+    .kpi-card .kpi-help {
+        font-size: 0.75rem;
+        color: #888;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px dashed #ddd;
+    }
+
+    .kpi-card.risco-alto {
+        border-left: 5px solid #c62828;
+    }
+
+    .kpi-card.risco-medio {
+        border-left: 5px solid #ef6c00;
+    }
+
+    .kpi-card.risco-baixo {
+        border-left: 5px solid #388e3c;
+    }
+
+    .kpi-card.info {
+        border-left: 5px solid #1976d2;
+    }
+
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 1.5rem;
@@ -119,6 +245,7 @@ st.markdown("""
         color: white;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
+
     .alert-critico {
         background-color: #ffebee;
         border-left: 5px solid #c62828;
@@ -127,6 +254,7 @@ st.markdown("""
         margin: 10px 0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
     .alert-alto {
         background-color: #fff3e0;
         border-left: 5px solid #ef6c00;
@@ -135,6 +263,7 @@ st.markdown("""
         margin: 10px 0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
     .alert-positivo {
         background-color: #e8f5e9;
         border-left: 5px solid #2e7d32;
@@ -143,6 +272,7 @@ st.markdown("""
         margin: 10px 0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
     .info-box {
         background-color: #e3f2fd;
         border-left: 4px solid #1976d2;
@@ -150,11 +280,149 @@ st.markdown("""
         border-radius: 5px;
         margin: 10px 0;
     }
+
     .stDataFrame {
         font-size: 0.9rem;
     }
+
+    /* Legenda explicativa */
+    .legenda-box {
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .legenda-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 8px 0;
+        font-size: 0.85rem;
+    }
+
+    .legenda-cor {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+    }
+
+    /* Seção colapsável de ajuda */
+    .help-section {
+        background-color: #e8f4fd;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+        border: 1px solid #bbdefb;
+    }
+
+    .help-section h4 {
+        color: #1565c0;
+        margin-bottom: 10px;
+    }
+
+    .help-section ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .help-section li {
+        margin: 5px 0;
+        color: #333;
+    }
 </style>
 """, unsafe_allow_html=True)
+
+# =============================================================================
+# 3.1. FUNÇÕES AUXILIARES DE UX - MÉTRICAS COM TOOLTIP
+# =============================================================================
+
+def metric_with_tooltip(label, value, tooltip, delta=None, delta_color="normal", icon="📊"):
+    """
+    Renderiza uma métrica com tooltip explicativo.
+
+    Args:
+        label: Título da métrica
+        value: Valor a ser exibido
+        tooltip: Texto explicativo do tooltip
+        delta: Valor de variação (opcional)
+        delta_color: Cor do delta ('normal', 'inverse', 'off')
+        icon: Ícone a ser exibido antes do título
+    """
+    delta_html = ""
+    if delta is not None:
+        delta_class = "positive" if (delta_color == "normal" and str(delta).startswith('+')) or \
+                                   (delta_color == "inverse" and str(delta).startswith('-')) else "negative"
+        delta_html = f'<div class="kpi-delta {delta_class}">{delta}</div>'
+
+    html = f"""
+    <div class="tooltip-container">
+        <div class="kpi-card info">
+            <div class="kpi-title">{icon} {label}</div>
+            <div class="kpi-value">{value}</div>
+            {delta_html}
+            <div class="kpi-help">💡 {tooltip}</div>
+        </div>
+    </div>
+    """
+    st.markdown(html, unsafe_allow_html=True)
+
+def criar_legenda_indicadores():
+    """Cria uma legenda explicativa para os indicadores."""
+    return """
+    <div class="legenda-box">
+        <h4>📖 Legenda dos Indicadores</h4>
+        <div class="legenda-item">
+            <div class="legenda-cor" style="background-color: #c62828;"></div>
+            <span><b>Alto Risco:</b> Score ≥ 80 - Prioridade máxima para fiscalização</span>
+        </div>
+        <div class="legenda-item">
+            <div class="legenda-cor" style="background-color: #ef6c00;"></div>
+            <span><b>Médio-Alto:</b> Score 60-79 - Alta prioridade de análise</span>
+        </div>
+        <div class="legenda-item">
+            <div class="legenda-cor" style="background-color: #fbc02d;"></div>
+            <span><b>Médio:</b> Score 40-59 - Monitoramento recomendado</span>
+        </div>
+        <div class="legenda-item">
+            <div class="legenda-cor" style="background-color: #388e3c;"></div>
+            <span><b>Baixo:</b> Score < 40 - Padrão considerado normal</span>
+        </div>
+    </div>
+    """
+
+# Dicionário com descrições dos KPIs para tooltips
+TOOLTIPS_KPI = {
+    'empresas_analisadas': 'Total de empresas na base DIMP que possuem movimentações financeiras registradas.',
+    'volume_total': 'Soma de todos os valores recebidos (CNPJ + CPF) pelas empresas analisadas.',
+    'volume_cpf': 'Total de valores recebidos através de CPFs de sócios, não diretamente no CNPJ da empresa.',
+    'perc_cpf': 'Percentual do volume total que foi recebido via CPF de sócios em relação ao total.',
+    'score_medio': 'Média do score de risco de todas as empresas. Quanto maior, maior a suspeita.',
+    'alto_risco': 'Quantidade de empresas com score ≥ 80, consideradas de altíssimo risco.',
+    'medio_alto': 'Quantidade de empresas com score entre 60 e 79, com risco elevado.',
+    '80pct_cpf': 'Empresas onde mais de 80% dos recebimentos são via CPF de sócios.',
+    'score_risco': 'Pontuação de 0 a 100 que indica probabilidade de irregularidade fiscal.',
+    'classificacao': 'Categoria de risco baseada no score: ALTO, MÉDIO-ALTO, MÉDIO ou BAIXO.',
+    'total_cnpj': 'Valor total recebido diretamente no CNPJ da empresa.',
+    'total_cpf_empresa': 'Valor total recebido via CPFs dos sócios desta empresa específica.',
+    'multiplicador': 'Quantas vezes o valor recebido via DIMP é maior que o salário formal.',
+    'score_proporcao': 'Componente do score baseado na proporção de recebimentos via CPF.',
+    'score_volume': 'Componente do score baseado no volume absoluto recebido via CPF.',
+    'score_socios': 'Componente do score baseado na quantidade de sócios recebendo.',
+    'score_consistencia': 'Componente do score baseado na regularidade temporal dos recebimentos.',
+    'acuracia': 'Percentual de acertos do modelo de Machine Learning nas previsões.',
+    'precisao': 'Proporção de verdadeiros positivos entre todos os positivos previstos.',
+    'recall': 'Proporção de verdadeiros positivos entre todos os positivos reais.',
+    'f1_score': 'Média harmônica entre Precisão e Recall, balanceando ambas métricas.',
+    'funcionarios': 'Total de funcionários (RAIS/CAGED) que recebem pagamentos via DIMP.',
+    'mult_medio': 'Média do multiplicador salário x recebimentos via DIMP.',
+    'func_alto_risco': 'Funcionários classificados como alto risco de irregularidade.',
+    'qtd_empresas': 'Número total de empresas em determinada categoria ou setor.',
+    'volume_setor': 'Volume total de recebimentos via CPF em um setor específico.',
+    'crescimento': 'Variação percentual do volume entre o primeiro e último período.',
+    'desvio_padrao': 'Medida de dispersão dos valores em relação à média.',
+}
 
 # =============================================================================
 # 4. FUNÇÕES DE CONEXÃO E CARREGAMENTO
@@ -530,38 +798,43 @@ def detectar_anomalias(df_ml):
 def criar_filtros_sidebar():
     """Cria painel de filtros na sidebar."""
     filtros = {}
-    
+
     with st.sidebar.expander("🎯 Filtros Globais", expanded=True):
-        
+        st.caption("💡 Use os filtros abaixo para refinar sua análise")
+
         filtros['classificacoes'] = st.multiselect(
             "Classificações de Risco",
             ['ALTO', 'MÉDIO-ALTO', 'MÉDIO', 'BAIXO'],
-            default=['ALTO', 'MÉDIO-ALTO']
+            default=['ALTO', 'MÉDIO-ALTO'],
+            help="Selecione quais níveis de risco deseja visualizar. Alto e Médio-Alto são os casos mais críticos."
         )
-        
+
         filtros['perc_cpf_min'] = st.slider(
             "% CPF Mínimo",
             min_value=0,
             max_value=100,
             value=50,
-            step=5
+            step=5,
+            help="Filtra empresas com percentual de recebimentos via CPF acima deste valor. 50% = metade dos recebimentos via CPF."
         )
-        
+
         filtros['score_min'] = st.slider(
             "Score Mínimo",
             min_value=0,
             max_value=100,
             value=60,
-            step=5
+            step=5,
+            help="Filtra empresas com score de risco acima deste valor. Score ≥60 indica risco elevado."
         )
-        
+
         filtros['valor_min'] = st.number_input(
             "Valor CPF Mínimo (R$)",
             min_value=0,
             max_value=10000000,
             value=10000,
             step=10000,
-            format="%d"
+            format="%d",
+            help="Filtra empresas com volume mínimo de recebimentos via CPF. Útil para focar em casos com maior impacto fiscal."
         )
     
     with st.sidebar.expander("📊 Visualização", expanded=False):
@@ -582,52 +855,102 @@ def criar_filtros_sidebar():
 def pagina_dashboard_executivo(resumo, filtros):
     """Dashboard executivo principal."""
     st.markdown("<h1 class='main-header'>💳 Dashboard Executivo DIMP</h1>", unsafe_allow_html=True)
-    
+
     st.markdown("""
     <div class='info-box'>
-    <b>Sistema DIMP:</b> Análise de meios de pagamento, identificando empresas que recebem 
+    <b>Sistema DIMP:</b> Análise de meios de pagamento, identificando empresas que recebem
     valores significativos via CPF de sócios, em vez do CNPJ da empresa.
+    <br><br>
+    <b>💡 Dica:</b> Passe o mouse sobre os indicadores para ver explicações detalhadas.
     </div>
     """, unsafe_allow_html=True)
-    
+
+    # Legenda de cores de risco
+    with st.expander("📖 Entenda os Indicadores de Risco", expanded=False):
+        st.markdown(criar_legenda_indicadores(), unsafe_allow_html=True)
+        st.markdown("""
+        **Como interpretar:**
+        - **Volume Total**: Soma de todos os recebimentos (CNPJ + CPF)
+        - **Volume via CPF**: Valores recebidos em CPFs de sócios (suspeito quando alto)
+        - **Score de Risco**: Pontuação de 0-100 baseada em múltiplos fatores
+        - **Empresas 80%+ CPF**: Casos mais críticos onde quase tudo é recebido via CPF
+        """)
+
     # KPIs principais
     kpis = calcular_kpis_resumo(resumo)
-    
+
     st.subheader("📊 Indicadores Principais")
-    
+
     col1, col2, col3, col4, col5 = st.columns(5)
-    
+
     with col1:
-        st.metric("Empresas Analisadas", f"{kpis['total_empresas']:,}")
-    
+        st.metric(
+            "Empresas Analisadas",
+            f"{kpis['total_empresas']:,}",
+            help="Total de empresas na base DIMP com movimentações financeiras registradas. Inclui empresas de todos os regimes tributários."
+        )
+
     with col2:
-        st.metric("Volume Total", f"R$ {kpis['volume_total']/1e6:.1f}M")
-    
+        st.metric(
+            "Volume Total",
+            f"R$ {kpis['volume_total']/1e6:.1f}M",
+            help="Soma de todos os valores recebidos (via CNPJ + via CPF de sócios). Representa o montante total movimentado pelas empresas analisadas."
+        )
+
     with col3:
-        st.metric("Volume via CPF", f"R$ {kpis['volume_cpf']/1e6:.1f}M")
-    
+        st.metric(
+            "Volume via CPF",
+            f"R$ {kpis['volume_cpf']/1e6:.1f}M",
+            help="Total de valores recebidos através de CPFs de sócios, não diretamente no CNPJ da empresa. Quanto maior este valor em relação ao total, maior o risco de irregularidade."
+        )
+
     with col4:
         perc_total_cpf = (kpis['volume_cpf'] / kpis['volume_total'] * 100) if kpis['volume_total'] > 0 else 0
-        st.metric("% Total via CPF", f"{perc_total_cpf:.1f}%")
-    
+        st.metric(
+            "% Total via CPF",
+            f"{perc_total_cpf:.1f}%",
+            help="Percentual do volume total que foi recebido via CPF de sócios. Valores acima de 50% indicam padrão atípico que merece investigação."
+        )
+
     with col5:
-        st.metric("Score Médio", f"{kpis['media_score']:.1f}")
-    
+        st.metric(
+            "Score Médio",
+            f"{kpis['media_score']:.1f}",
+            help="Média do score de risco de todas as empresas (0-100). Score > 60 indica risco elevado. A metodologia considera proporção CPF, volume, quantidade de sócios e consistência temporal."
+        )
+
     # Segunda linha
+    st.markdown("##### 🎯 Indicadores de Risco")
     col1, col2, col3, col4 = st.columns(4)
-    
+
     with col1:
-        st.metric("Alto Risco", f"{kpis['empresas_alto_risco']:,}")
-    
+        st.metric(
+            "🔴 Alto Risco",
+            f"{kpis['empresas_alto_risco']:,}",
+            help="Empresas com score ≥ 80, consideradas de altíssimo risco para fiscalização. Prioridade máxima de análise."
+        )
+
     with col2:
-        st.metric("Médio-Alto Risco", f"{kpis['empresas_medio_alto']:,}")
-    
+        st.metric(
+            "🟠 Médio-Alto Risco",
+            f"{kpis['empresas_medio_alto']:,}",
+            help="Empresas com score entre 60 e 79. Alta prioridade de análise, podem indicar irregularidades significativas."
+        )
+
     with col3:
-        st.metric("80%+ via CPF", f"{kpis['empresas_80pct']:,}")
-    
+        st.metric(
+            "⚠️ 80%+ via CPF",
+            f"{kpis['empresas_80pct']:,}",
+            help="Empresas onde mais de 80% dos recebimentos são via CPF de sócios. Padrão altamente suspeito que pode indicar subfaturamento ou estruturas fantasmas."
+        )
+
     with col4:
         perc_80 = (kpis['empresas_80pct'] / kpis['total_empresas'] * 100) if kpis['total_empresas'] > 0 else 0
-        st.metric("% 80%+ CPF", f"{perc_80:.1f}%")
+        st.metric(
+            "% Empresas 80%+ CPF",
+            f"{perc_80:.1f}%",
+            help="Percentual de empresas na base que recebem mais de 80% via CPF. Indica a proporção de casos críticos no universo analisado."
+        )
     
     st.divider()
     
@@ -871,31 +1194,62 @@ def pagina_drill_down_empresa(engine, filtros):
     
     # Indicadores
     st.subheader("📊 Indicadores da Empresa")
-    
+
     col1, col2, col3, col4, col5 = st.columns(5)
-    
+
     with col1:
-        st.metric("Score Risco", f"{empresa_info['score_risco_final']:.1f}")
-    
+        st.metric(
+            "Score Risco",
+            f"{empresa_info['score_risco_final']:.1f}",
+            help="Pontuação de risco de 0 a 100. Quanto maior, maior a probabilidade de irregularidade. Score ≥80 = Alto Risco, 60-79 = Médio-Alto, 40-59 = Médio, <40 = Baixo."
+        )
+
     with col2:
-        st.metric("Classificação", empresa_info['classificacao_risco'])
-    
+        st.metric(
+            "Classificação",
+            empresa_info['classificacao_risco'],
+            help="Categoria de risco baseada no score: ALTO (≥80), MÉDIO-ALTO (60-79), MÉDIO (40-59) ou BAIXO (<40). Determina a prioridade de fiscalização."
+        )
+
     with col3:
-        st.metric("Total CNPJ", f"R$ {empresa_info['total_recebido_cnpj']/1e3:.1f}K")
-    
+        st.metric(
+            "Total CNPJ",
+            f"R$ {empresa_info['total_recebido_cnpj']/1e3:.1f}K",
+            help="Valor total recebido diretamente no CNPJ da empresa através de meios de pagamento eletrônicos (cartões, PIX, etc). Este é o fluxo normal e esperado."
+        )
+
     with col4:
-        st.metric("Total CPF", f"R$ {empresa_info['total_recebido_cpf']/1e3:.1f}K")
-    
+        st.metric(
+            "Total CPF",
+            f"R$ {empresa_info['total_recebido_cpf']/1e3:.1f}K",
+            help="Valor total recebido via CPFs dos sócios desta empresa. Recebimentos em CPF podem indicar subfaturamento ou desvio de receita."
+        )
+
     with col5:
-        st.metric("% CPF", f"{empresa_info['perc_recebido_cpf']:.1f}%")
-    
+        st.metric(
+            "% CPF",
+            f"{empresa_info['perc_recebido_cpf']:.1f}%",
+            help="Percentual do total de recebimentos que foi via CPF de sócios. Valores acima de 50% são atípicos, acima de 80% são altamente suspeitos."
+        )
+
     # Alertas
     if empresa_info['classificacao_risco'] == 'ALTO':
         st.markdown(
             f"<div class='alert-critico'>"
             f"<b>⚠️ ALERTA CRÍTICO:</b> Empresa classificada como ALTO RISCO<br>"
             f"Score: {empresa_info['score_risco_final']:.1f} | "
-            f"% CPF: {empresa_info['perc_recebido_cpf']:.1f}%"
+            f"% CPF: {empresa_info['perc_recebido_cpf']:.1f}%<br>"
+            f"<small>💡 Recomenda-se análise prioritária dos sócios e operações suspeitas.</small>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+    elif empresa_info['classificacao_risco'] == 'MÉDIO-ALTO':
+        st.markdown(
+            f"<div class='alert-alto'>"
+            f"<b>⚠️ ALERTA:</b> Empresa classificada como MÉDIO-ALTO RISCO<br>"
+            f"Score: {empresa_info['score_risco_final']:.1f} | "
+            f"% CPF: {empresa_info['perc_recebido_cpf']:.1f}%<br>"
+            f"<small>💡 Verificar evolução temporal e padrões de recebimento.</small>"
             f"</div>",
             unsafe_allow_html=True
         )
@@ -981,14 +1335,30 @@ def pagina_drill_down_empresa(engine, filtros):
             # Resumo
             col1, col2, col3, col4 = st.columns(4)
             with col1:
-                st.metric("Total Operações", len(df_ops))
+                st.metric(
+                    "Total Operações",
+                    len(df_ops),
+                    help="Quantidade de operações financeiras suspeitas registradas para esta empresa. Cada operação representa um recebimento via CPF de sócio."
+                )
             with col2:
-                st.metric("Valor Total", f"R$ {df_ops['vl_total'].sum():,.2f}")
+                st.metric(
+                    "Valor Total",
+                    f"R$ {df_ops['vl_total'].sum():,.2f}",
+                    help="Soma de todos os valores das operações suspeitas listadas. Representa o montante total potencialmente irregular."
+                )
             with col3:
-                st.metric("Valor Médio", f"R$ {df_ops['vl_total'].mean():,.2f}")
+                st.metric(
+                    "Valor Médio",
+                    f"R$ {df_ops['vl_total'].mean():,.2f}",
+                    help="Média do valor por operação. Valores médios muito altos podem indicar operações concentradas ou estruturadas."
+                )
             with col4:
                 meses_distintos = df_ops['referencia'].nunique()
-                st.metric("Meses", meses_distintos)
+                st.metric(
+                    "Meses",
+                    meses_distintos,
+                    help="Quantidade de meses distintos com operações suspeitas. Recorrência indica padrão sistemático."
+                )
             
             # Gráfico por tipo de operação
             st.markdown("#### Distribuição por Tipo de Operação")
@@ -1058,16 +1428,42 @@ def pagina_drill_down_empresa(engine, filtros):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("**Scores Componentes:**")
-            st.metric("Score Proporção", f"{empresa_info.get('score_proporcao', 0):.0f}")
-            st.metric("Score Volume", f"{empresa_info.get('score_volume_cpf', 0):.0f}")
-            st.metric("Score Sócios", f"{empresa_info.get('score_qtd_socios', 0):.0f}")
-        
+            st.markdown("**📐 Scores Componentes:**")
+            st.markdown("<small>💡 O score final é calculado pela soma ponderada destes componentes.</small>", unsafe_allow_html=True)
+            st.metric(
+                "Score Proporção",
+                f"{empresa_info.get('score_proporcao', 0):.0f}",
+                help="Componente baseado na proporção de recebimentos via CPF (peso 30%). Quanto maior o percentual via CPF, maior este score."
+            )
+            st.metric(
+                "Score Volume",
+                f"{empresa_info.get('score_volume_cpf', 0):.0f}",
+                help="Componente baseado no volume absoluto recebido via CPF (peso 25%). Considera o valor total em R$ recebido nos CPFs dos sócios."
+            )
+            st.metric(
+                "Score Sócios",
+                f"{empresa_info.get('score_qtd_socios', 0):.0f}",
+                help="Componente baseado na quantidade de sócios recebendo (peso 15%). Múltiplos sócios recebendo indica dispersão estruturada."
+            )
+
         with col2:
-            st.markdown("**Outros Indicadores:**")
-            st.metric("Score Desvio Regime", f"{empresa_info.get('score_desvio_regime', 0):.0f}")
-            st.metric("Score Consistência", f"{empresa_info.get('score_consistencia', 0):.0f}")
-            st.metric("Sócios Recebendo", f"{int(empresa_info.get('qtd_socios_recebendo', 0))}")
+            st.markdown("**📊 Outros Indicadores:**")
+            st.markdown("<small>💡 Indicadores complementares de análise de risco.</small>", unsafe_allow_html=True)
+            st.metric(
+                "Score Desvio Regime",
+                f"{empresa_info.get('score_desvio_regime', 0):.0f}",
+                help="Componente que compara o comportamento da empresa com a média do seu regime tributário (peso 20%). Desvios significativos aumentam o score."
+            )
+            st.metric(
+                "Score Consistência",
+                f"{empresa_info.get('score_consistencia', 0):.0f}",
+                help="Componente baseado na regularidade temporal dos recebimentos (peso 10%). Recebimentos constantes mês a mês indicam padrão sistemático."
+            )
+            st.metric(
+                "Sócios Recebendo",
+                f"{int(empresa_info.get('qtd_socios_recebendo', 0))}",
+                help="Quantidade de CPFs de sócios que recebem pagamentos. Quando muitos sócios recebem, pode indicar estrutura de dispersão de receita."
+            )
 
 def pagina_machine_learning(engine, filtros):
     """Sistema de Machine Learning para priorização."""
@@ -1094,18 +1490,34 @@ def pagina_machine_learning(engine, filtros):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Total Empresas", f"{len(df_ml):,}")
-    
+        st.metric(
+            "Total Empresas",
+            f"{len(df_ml):,}",
+            help="Quantidade de empresas disponíveis para treinamento do modelo de Machine Learning. Representa o dataset completo."
+        )
+
     with col2:
         suspeitas = df_ml[df_ml['target_suspeito'] == 1]
-        st.metric("Suspeitas (Alto/Médio-Alto)", f"{len(suspeitas):,}")
-    
+        st.metric(
+            "Suspeitas (Alto/Médio-Alto)",
+            f"{len(suspeitas):,}",
+            help="Empresas classificadas como Alto ou Médio-Alto risco pelo sistema de scoring. Usadas como classe positiva no treinamento do modelo."
+        )
+
     with col3:
         perc_susp = len(suspeitas) / len(df_ml) * 100
-        st.metric("% Suspeitas", f"{perc_susp:.1f}%")
-    
+        st.metric(
+            "% Suspeitas",
+            f"{perc_susp:.1f}%",
+            help="Proporção de empresas suspeitas no dataset. Indica o balanceamento das classes para treinamento do modelo ML."
+        )
+
     with col4:
-        st.metric("Features", "8")
+        st.metric(
+            "Features",
+            "8",
+            help="Quantidade de variáveis (características) usadas pelo modelo para fazer previsões: % CPF, Volume, Qtd Sócios, Meses CPF, e 4 scores componentes."
+        )
     
     st.divider()
     
@@ -1138,16 +1550,32 @@ def pagina_machine_learning(engine, filtros):
                 col1, col2, col3, col4 = st.columns(4)
                 
                 with col1:
-                    st.metric("Acurácia", f"{report['accuracy']:.3f}")
-                
+                    st.metric(
+                        "Acurácia",
+                        f"{report['accuracy']:.3f}",
+                        help="Percentual geral de acertos do modelo. Indica a proporção de previsões corretas (tanto suspeitas quanto não-suspeitas) em relação ao total."
+                    )
+
                 with col2:
-                    st.metric("Precisão (Classe 1)", f"{report['1']['precision']:.3f}")
-                
+                    st.metric(
+                        "Precisão (Classe 1)",
+                        f"{report['1']['precision']:.3f}",
+                        help="Quando o modelo prevê 'suspeita', qual % está correto? Alta precisão = poucos falsos positivos. Ideal para evitar fiscalizações desnecessárias."
+                    )
+
                 with col3:
-                    st.metric("Recall (Classe 1)", f"{report['1']['recall']:.3f}")
-                
+                    st.metric(
+                        "Recall (Classe 1)",
+                        f"{report['1']['recall']:.3f}",
+                        help="De todas as empresas realmente suspeitas, quantas % o modelo identificou? Alto recall = detecta mais irregularidades reais."
+                    )
+
                 with col4:
-                    st.metric("F1-Score (Classe 1)", f"{report['1']['f1-score']:.3f}")
+                    st.metric(
+                        "F1-Score (Classe 1)",
+                        f"{report['1']['f1-score']:.3f}",
+                        help="Média harmônica entre Precisão e Recall. Balanceia ambas métricas. Valores próximos a 1.0 indicam excelente desempenho."
+                    )
                 
                 # Matriz de confusão
                 col1, col2 = st.columns(2)
@@ -1306,16 +1734,32 @@ def pagina_analise_setorial(engine, filtros):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Empresas", f"{int(setor_info['qtd_empresas']):,}")
-    
+        st.metric(
+            "Empresas",
+            f"{int(setor_info['qtd_empresas']):,}",
+            help="Quantidade de empresas ativas neste setor (CNAE) que possuem movimentações registradas no DIMP."
+        )
+
     with col2:
-        st.metric("Volume CPF", f"R$ {setor_info['volume_cpf']/1e6:.1f}M")
-    
+        st.metric(
+            "Volume CPF",
+            f"R$ {setor_info['volume_cpf']/1e6:.1f}M",
+            help="Total de valores recebidos via CPF de sócios por todas as empresas deste setor. Indica exposição setorial ao risco."
+        )
+
     with col3:
-        st.metric("% CPF Médio", f"{setor_info['media_perc_cpf']:.1f}%")
-    
+        st.metric(
+            "% CPF Médio",
+            f"{setor_info['media_perc_cpf']:.1f}%",
+            help="Média do percentual de recebimentos via CPF no setor. Setores com média alta podem ter características próprias ou maior incidência de irregularidades."
+        )
+
     with col4:
-        st.metric("Alto Risco", f"{int(setor_info['qtd_alto_risco']):,}")
+        st.metric(
+            "Alto Risco",
+            f"{int(setor_info['qtd_alto_risco']):,}",
+            help="Quantidade de empresas classificadas como alto risco dentro deste setor. Indica a concentração de casos críticos."
+        )
     
     st.divider()
     
@@ -1635,35 +2079,72 @@ def pagina_analise_funcionarios(engine, filtros):
     col1, col2, col3, col4, col5 = st.columns(5)
     
     with col1:
-        st.metric("Empresas", f"{int(stats['total_empresas']):,}")
-    
+        st.metric(
+            "Empresas",
+            f"{int(stats['total_empresas']):,}",
+            help="Total de empresas que possuem funcionários (RAIS/CAGED) recebendo pagamentos via DIMP em seus CPFs pessoais."
+        )
+
     with col2:
-        st.metric("Funcionários", f"{int(stats['total_funcionarios']):,}")
-    
+        st.metric(
+            "Funcionários",
+            f"{int(stats['total_funcionarios']):,}",
+            help="Quantidade de funcionários formalmente registrados que recebem valores via CPF além do salário. Cruzamento RAIS/CAGED + DIMP."
+        )
+
     with col3:
-        st.metric("Volume Total", f"R$ {stats['volume_total']/1e6:.1f}M")
-    
+        st.metric(
+            "Volume Total",
+            f"R$ {stats['volume_total']/1e6:.1f}M",
+            help="Soma de todos os valores recebidos via DIMP pelos funcionários identificados. Representa o potencial de irregularidade."
+        )
+
     with col4:
-        st.metric("Mult. Médio", f"{stats['media_multiplicador']:.2f}x")
-    
+        st.metric(
+            "Mult. Médio",
+            f"{stats['media_multiplicador']:.2f}x",
+            help="Multiplicador médio: quantas vezes o valor DIMP é maior que o salário formal. Ex: 3x significa receber via DIMP 3 vezes o salário."
+        )
+
     with col5:
-        st.metric("Score Médio", f"{stats['media_score']:.1f}")
-    
+        st.metric(
+            "Score Médio",
+            f"{stats['media_score']:.1f}",
+            help="Média do score de risco dos funcionários analisados. Considera multiplicador, volume, quantidade de empresas e outros fatores."
+        )
+
     # Segunda linha de KPIs
+    st.markdown("##### ⚠️ Indicadores de Alerta")
     col1, col2, col3, col4 = st.columns(4)
-    
+
     with col1:
-        st.metric("Alto Risco", f"{int(stats['func_alto_risco']):,}", 
-                 delta=f"{int(stats['func_medio_alto']):,} médio-alto")
-    
+        st.metric(
+            "🔴 Alto Risco",
+            f"{int(stats['func_alto_risco']):,}",
+            delta=f"{int(stats['func_medio_alto']):,} médio-alto",
+            help="Funcionários com score ≥ 80 (alto risco). O delta mostra os de médio-alto risco (60-79)."
+        )
+
     with col2:
-        st.metric("Mult. ≥3x", f"{int(stats['func_mult_3x']):,}")
-    
+        st.metric(
+            "Mult. ≥3x",
+            f"{int(stats['func_mult_3x']):,}",
+            help="Funcionários que recebem via DIMP 3 vezes ou mais o salário formal. Indica possível pagamento 'por fora'."
+        )
+
     with col3:
-        st.metric("Mult. ≥5x", f"{int(stats['func_mult_5x']):,}")
-    
+        st.metric(
+            "Mult. ≥5x",
+            f"{int(stats['func_mult_5x']):,}",
+            help="Funcionários com multiplicador ≥ 5x. Casos mais graves onde o DIMP é 5+ vezes maior que o salário."
+        )
+
     with col4:
-        st.metric("Mult. ≥10x", f"{int(stats['func_mult_10x']):,}")
+        st.metric(
+            "Mult. ≥10x",
+            f"{int(stats['func_mult_10x']):,}",
+            help="Casos extremos: multiplicador ≥ 10x. Altamente suspeito, pode indicar uso do CPF do funcionário para ocultar receita da empresa."
+        )
     
     st.divider()
     
@@ -2079,17 +2560,33 @@ def pagina_analise_socios_multiplos(engine, filtros):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Total Sócios", f"{len(df_socios):,}")
-    
+        st.metric(
+            "Total Sócios",
+            f"{len(df_socios):,}",
+            help="Quantidade de sócios que recebem pagamentos em múltiplas empresas diferentes. Indica possível rede de dispersão."
+        )
+
     with col2:
-        st.metric("Volume Total", f"R$ {df_socios['total_recebido'].sum()/1e6:.1f}M")
-    
+        st.metric(
+            "Volume Total",
+            f"R$ {df_socios['total_recebido'].sum()/1e6:.1f}M",
+            help="Soma de todos os valores recebidos por estes sócios em todas as suas empresas. Representa o volume total da rede."
+        )
+
     with col3:
         media_not = df_socios['qtd_empresas'].mean() if len(df_socios) > 0 else 0
-        st.metric("Média Empresas/Sócio", f"{media_not:.1f}")
-    
+        st.metric(
+            "Média Empresas/Sócio",
+            f"{media_not:.1f}",
+            help="Média de empresas onde cada sócio recebe pagamentos. Valores altos indicam estruturas de dispersão complexas."
+        )
+
     with col4:
-        st.metric("Máx. Empresas", f"{df_socios['qtd_empresas'].max()}")
+        st.metric(
+            "Máx. Empresas",
+            f"{df_socios['qtd_empresas'].max()}",
+            help="Maior número de empresas onde um único sócio recebe pagamentos. Caso extremo de dispersão."
+        )
     
     st.divider()
     
@@ -2210,18 +2707,34 @@ def pagina_analise_temporal(engine, filtros):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Período", f"{df_temporal['data'].min().strftime('%m/%Y')} - {df_temporal['data'].max().strftime('%m/%Y')}")
-    
+        st.metric(
+            "Período",
+            f"{df_temporal['data'].min().strftime('%m/%Y')} - {df_temporal['data'].max().strftime('%m/%Y')}",
+            help="Intervalo de tempo analisado, do primeiro ao último mês com dados disponíveis no DIMP."
+        )
+
     with col2:
-        st.metric("Volume Total CNPJ", f"R$ {df_temporal['volume_total_cnpj'].sum()/1e6:.1f}M")
-    
+        st.metric(
+            "Volume Total CNPJ",
+            f"R$ {df_temporal['volume_total_cnpj'].sum()/1e6:.1f}M",
+            help="Soma de todos os valores recebidos diretamente nos CNPJs das empresas ao longo do período. Representa o fluxo regular de recebimentos."
+        )
+
     with col3:
-        st.metric("Volume Total CPF", f"R$ {df_temporal['volume_total_cpf'].sum()/1e6:.1f}M")
-    
+        st.metric(
+            "Volume Total CPF",
+            f"R$ {df_temporal['volume_total_cpf'].sum()/1e6:.1f}M",
+            help="Soma de todos os valores recebidos via CPFs de sócios ao longo do período. Volume potencialmente irregular."
+        )
+
     with col4:
-        perc_cpf_total = (df_temporal['volume_total_cpf'].sum() / 
+        perc_cpf_total = (df_temporal['volume_total_cpf'].sum() /
                          (df_temporal['volume_total_cnpj'].sum() + df_temporal['volume_total_cpf'].sum()) * 100)
-        st.metric("% CPF do Total", f"{perc_cpf_total:.1f}%")
+        st.metric(
+            "% CPF do Total",
+            f"{perc_cpf_total:.1f}%",
+            help="Proporção do volume via CPF em relação ao total (CNPJ + CPF). Indica a magnitude do problema de recebimentos em CPF."
+        )
     
     st.divider()
     
@@ -2304,18 +2817,34 @@ def pagina_analise_temporal(engine, filtros):
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.metric("Crescimento CPF", f"{crescimento_cpf:+.1f}%")
-        
+            st.metric(
+                "Crescimento CPF",
+                f"{crescimento_cpf:+.1f}%",
+                help="Variação percentual do volume via CPF entre o primeiro e último mês. Crescimento alto pode indicar aumento de irregularidades."
+            )
+
         with col2:
-            st.metric("Crescimento CNPJ", f"{crescimento_cnpj:+.1f}%")
-        
+            st.metric(
+                "Crescimento CNPJ",
+                f"{crescimento_cnpj:+.1f}%",
+                help="Variação percentual do volume via CNPJ entre o primeiro e último mês. Serve como referência de crescimento normal."
+            )
+
         with col3:
             media_mensal_cpf = df_temporal['volume_total_cpf'].mean()
-            st.metric("Média Mensal CPF", f"R$ {media_mensal_cpf/1e6:.1f}M")
-        
+            st.metric(
+                "Média Mensal CPF",
+                f"R$ {media_mensal_cpf/1e6:.1f}M",
+                help="Valor médio mensal recebido via CPF no período. Permite entender o volume típico de recebimentos suspeitos."
+            )
+
         with col4:
             desvio_cpf = df_temporal['volume_total_cpf'].std()
-            st.metric("Desvio Padrão CPF", f"R$ {desvio_cpf/1e6:.1f}M")
+            st.metric(
+                "Desvio Padrão CPF",
+                f"R$ {desvio_cpf/1e6:.1f}M",
+                help="Medida de dispersão dos valores mensais. Desvio alto indica grande variabilidade, possíveis picos sazonais ou operações esporádicas."
+            )
 
 def pagina_padroes_suspeitos(engine, filtros):
     """Análise de padrões suspeitos específicos."""
@@ -2358,13 +2887,25 @@ def pagina_padroes_suspeitos(engine, filtros):
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Empresas 100% CPF", f"{len(df_100):,}")
-        
+            st.metric(
+                "Empresas 100% CPF",
+                f"{len(df_100):,}",
+                help="Quantidade de empresas que NUNCA recebem no CNPJ, apenas nos CPFs dos sócios. Padrão mais crítico de irregularidade."
+            )
+
         with col2:
-            st.metric("Volume Total", f"R$ {df_100['total_cpf'].sum()/1e6:.1f}M")
-        
+            st.metric(
+                "Volume Total",
+                f"R$ {df_100['total_cpf'].sum()/1e6:.1f}M",
+                help="Valor total recebido por estas empresas 100% CPF. Representa potencial máximo de receita não declarada."
+            )
+
         with col3:
-            st.metric("Score Médio", f"{df_100['score_final'].mean():.1f}")
+            st.metric(
+                "Score Médio",
+                f"{df_100['score_final'].mean():.1f}",
+                help="Score médio de risco destas empresas. Naturalmente alto, dado o padrão extremo de 100% via CPF."
+            )
         
         st.markdown("""
         <div class='alert-critico'>
@@ -2409,13 +2950,25 @@ def pagina_padroes_suspeitos(engine, filtros):
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Empresas Alto Valor", f"{len(df_alto):,}")
-        
+            st.metric(
+                "Empresas Alto Valor",
+                f"{len(df_alto):,}",
+                help="Empresas com volume >R$ 100K via CPF E proporção >80%. Combinam alto valor e alta proporção, maximizando o risco fiscal."
+            )
+
         with col2:
-            st.metric("Volume Total", f"R$ {df_alto['total_cpf'].sum()/1e6:.1f}M")
-        
+            st.metric(
+                "Volume Total",
+                f"R$ {df_alto['total_cpf'].sum()/1e6:.1f}M",
+                help="Soma dos valores via CPF destas empresas de alto valor. Representa o maior potencial de recuperação fiscal."
+            )
+
         with col3:
-            st.metric("Impacto Médio", f"R$ {df_alto['total_cpf'].mean()/1e3:.1f}K")
+            st.metric(
+                "Impacto Médio",
+                f"R$ {df_alto['total_cpf'].mean()/1e3:.1f}K",
+                help="Valor médio por empresa neste grupo. Permite dimensionar o impacto individual de cada caso."
+            )
         
         st.markdown("""
         <div class='alert-alto'>
@@ -2458,13 +3011,25 @@ def pagina_padroes_suspeitos(engine, filtros):
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Empresas 5+ Sócios", f"{len(df_mult):,}")
-        
+            st.metric(
+                "Empresas 5+ Sócios",
+                f"{len(df_mult):,}",
+                help="Empresas onde 5 ou mais sócios recebem pagamentos via CPF. Indica estrutura de dispersão com múltiplos beneficiários."
+            )
+
         with col2:
-            st.metric("Máx. Sócios", f"{df_mult['qtd_socios_recebendo'].max()}")
-        
+            st.metric(
+                "Máx. Sócios",
+                f"{df_mult['qtd_socios_recebendo'].max()}",
+                help="Maior número de sócios recebendo em uma única empresa. Caso extremo de dispersão que merece investigação prioritária."
+            )
+
         with col3:
-            st.metric("Volume Total", f"R$ {df_mult['total_cpf'].sum()/1e6:.1f}M")
+            st.metric(
+                "Volume Total",
+                f"R$ {df_mult['total_cpf'].sum()/1e6:.1f}M",
+                help="Soma de todos os valores via CPF nestas empresas com múltiplos sócios. Volume distribuído entre vários CPFs."
+            )
         
         st.markdown("""
         <div class='alert-alto'>
@@ -2764,6 +3329,51 @@ def main():
     
     st.sidebar.markdown("---")
     
+    with st.sidebar.expander("📖 Glossário de Termos", expanded=False):
+        st.markdown("""
+        **📊 Principais Indicadores:**
+
+        **Score de Risco** (0-100)
+        Pontuação que indica probabilidade de irregularidade. Calculado com base em 5 fatores.
+
+        **% CPF**
+        Percentual de recebimentos via CPF de sócios vs total.
+
+        **Multiplicador**
+        Quantas vezes o valor DIMP excede o salário formal.
+
+        ---
+        **🚦 Classificações:**
+
+        🔴 **Alto** (≥80): Prioridade máxima
+        🟠 **Médio-Alto** (60-79): Alta prioridade
+        🟡 **Médio** (40-59): Monitorar
+        🟢 **Baixo** (<40): Normal
+
+        ---
+        **💡 Dica:** Passe o mouse sobre qualquer indicador para ver explicações detalhadas.
+        """)
+
+    with st.sidebar.expander("📐 Metodologia do Score", expanded=False):
+        st.markdown("""
+        **Componentes do Score:**
+
+        1. **Proporção CPF** (30%)
+           % de recebimentos via CPF
+
+        2. **Volume CPF** (25%)
+           Valor absoluto em R$
+
+        3. **Desvio Regime** (20%)
+           Comparação com média do regime
+
+        4. **Qtd. Sócios** (15%)
+           Número de CPFs recebendo
+
+        5. **Consistência** (10%)
+           Regularidade temporal
+        """)
+
     with st.sidebar.expander("ℹ️ Informações"):
         st.caption(f"**Versão:** 1.0")
         st.caption(f"**Atualização:** {datetime.now().strftime('%d/%m/%Y %H:%M')}")
